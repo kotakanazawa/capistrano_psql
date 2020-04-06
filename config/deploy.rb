@@ -11,3 +11,6 @@ set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rben
 
 append :linked_dirs, '.bundle'
 set :bundle_jobs, 2
+
+append :linked_files, "config/master.key"
+append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets"
