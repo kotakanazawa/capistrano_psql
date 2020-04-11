@@ -1,12 +1,13 @@
 version: 2.1
 
+# executors ジョブの実行環境を定義 複数のジョブで同じ環境を再利用するときに便利
 executors:
   default:
-    working_directory: ~/capistrano_psql
+    working_directory: ~/circleci_capistrano_psql
     docker:
       - image: circleci/ruby:2.6.5-node-browsers
         environment:
-          BUNDLER_VERSION: 2.1.4
+          # BUNDLER_VERSION: 2.1.4
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
@@ -15,11 +16,11 @@ executors:
           PGPASSWORD: ""
       - image: circleci/postgres:11.5-alpine
         environment:
-          POSTGRES_USER: capistrano_psql
-          POSTGRES_DB: capistrano_psql
+          POSTGRES_USER: circleci_capistrano_psql
+          POSTGRES_DB: capistrano_psql_production
           POSTGRES_PASSWORD: ""
 
-commands:
+commands: # ジョブで実行する処理を定義しておく
   setup:
     steps:
       - checkout
@@ -59,6 +60,7 @@ commands:
           paths:
             - ~/.cache/yarn
 
+# 実行処理の単位
 jobs:
   test:
     executor: default
